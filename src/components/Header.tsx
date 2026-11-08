@@ -13,14 +13,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAddModal }) => {
           <UtensilsCrossed className="w-5 h-5 stroke-[2.5]" />
         </div>
         <div>
-          <div className="flex items-center gap-1.5">
-            <h1 className="text-lg font-black text-white tracking-tight leading-none">
-              Menü
-            </h1>
-            <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">
-              v1.0
-            </span>
-          </div>
+          <h1 className="text-lg font-black text-white tracking-tight leading-none">
+            Menü
+          </h1>
           <p className="text-[11px] text-gray-400 font-medium">Bugün Ne Yapsam?</p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import type { Meal, MealCategory } from "../types/meal";
 import { CATEGORY_LABELS, CATEGORY_EMOJIS } from "../types/meal";
-import { Search, Clock, Trash2, CheckCircle2, CircleDot } from "lucide-react";
+import { Search, Clock, Trash2, CheckCircle2, CircleDot, RotateCcw } from "lucide-react";
 
 interface MealPoolListProps {
   remainingMeals: Meal[];
@@ -9,6 +9,7 @@ interface MealPoolListProps {
   currentMealId: string | null;
   onSelectMeal: (meal: Meal) => void;
   onDeleteMeal: (mealId: string) => void;
+  onRestoreMeal: (mealId: string) => void;
 }
 
 export const MealPoolList: React.FC<MealPoolListProps> = ({
@@ -17,6 +18,7 @@ export const MealPoolList: React.FC<MealPoolListProps> = ({
   currentMealId,
   onSelectMeal,
   onDeleteMeal,
+  onRestoreMeal,
 }) => {
   const [activeTab, setActiveTab] = useState<"remaining" | "cooked">("remaining");
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,6 +50,7 @@ export const MealPoolList: React.FC<MealPoolListProps> = ({
     "bakliyat",
     "makarna-hamur",
     "pratik",
+    "tatli",
   ];
 
   return (
@@ -184,10 +187,17 @@ export const MealPoolList: React.FC<MealPoolListProps> = ({
                     </button>
                   )}
                   {activeTab === "cooked" && (
-                    <span className="text-emerald-400 text-[11px] font-medium flex items-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      Pişti
-                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onRestoreMeal(meal.id);
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-orange-500/10 hover:bg-orange-500/20 text-orange-300 border border-orange-500/30 text-[11px] font-semibold flex items-center gap-1.5 transition-colors"
+                      title="Havuza Geri Al"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Havuza Al</span>
+                    </button>
                   )}
                 </div>
               </div>

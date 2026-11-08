@@ -56,13 +56,12 @@ export const CycleProgress: React.FC<CycleProgressProps> = ({
         />
       </div>
 
-      <div className="flex items-center justify-between text-[11px] text-gray-400">
+      <div className="text-[11px] text-gray-400">
         <span>
           {remainingCount === 0
-            ? "🎉 Tebrikler! Tüm yemekler bitti, döngü yenilendi."
+            ? "Tüm yemekler tamamlandı, döngü yenilendi."
             : `Döngünün tamamlanmasına son ${remainingCount} yemek kaldı.`}
         </span>
-        <span className="text-gray-400 opacity-70">Tekrarsız Seçim</span>
       </div>
     </div>
   );

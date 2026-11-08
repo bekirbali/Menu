@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Meal } from "../types/meal";
-import { CATEGORY_LABELS, CATEGORY_EMOJIS } from "../types/meal";
+import { CATEGORY_EMOJIS } from "../types/meal";
 import { Check, Dices, Clock, ChevronDown, ChevronUp, Utensils } from "lucide-react";
 
 interface DailyMenuCardProps {
@@ -23,13 +23,10 @@ export const DailyMenuCard: React.FC<DailyMenuCardProps> = ({
   if (!meal) {
     return (
       <div className="bg-[#151821] border border-[#272c3d] rounded-2xl p-6 text-center space-y-3 shadow-lg">
-        <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-400 mx-auto flex items-center justify-center text-2xl">
-          🍽️
+        <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-400 mx-auto flex items-center justify-center">
+          <Utensils className="w-6 h-6" />
         </div>
-        <h3 className="text-base font-bold text-gray-200">Günün Menüsü Henüz Seçilmedi</h3>
-        <p className="text-xs text-gray-400 max-w-xs mx-auto">
-          Yukarıdaki çarkı çevirerek veya aşağıdaki butona basarak günün yemeğini belirle.
-        </p>
+        <h3 className="text-base font-bold text-gray-200">Günün Yemeği</h3>
         <button
           onClick={onReroll}
           disabled={disabled || remainingCount === 0}
@@ -47,23 +44,12 @@ export const DailyMenuCard: React.FC<DailyMenuCardProps> = ({
       {/* Arka plan hafif ışıltı */}
       <div className="absolute top-0 right-0 w-36 h-36 bg-orange-500/10 rounded-full blur-2xl pointer-events-none" />
 
-      {/* Üst Rozetler */}
+      {/* Üst Rozet */}
       <div className="flex items-center justify-between">
         <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-500 text-white tracking-wider uppercase shadow-sm">
           <Utensils className="w-3 h-3" />
           GÜNÜN MENÜSÜ
         </span>
-
-        <div className="flex items-center gap-1.5">
-          {meal.isCustom && (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-              Senin Tarifin
-            </span>
-          )}
-          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#242838] text-gray-300 border border-[#333a50]">
-            {CATEGORY_EMOJIS[meal.category] || "🍲"} {CATEGORY_LABELS[meal.category] || "Yemek"}
-          </span>
-        </div>
       </div>
 
       {/* Yemek Başlığı & Büyük İkon */}

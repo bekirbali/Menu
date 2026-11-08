@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import type { Meal } from "../types/meal";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Zap } from "lucide-react";
+
+export interface WheelItem {
+  id: string;
+  name: string;
+}
 
 interface AdaptiveWheelProps {
-  meals: Meal[];
-  onSelect: (meal: Meal) => void;
+  meals: WheelItem[];
+  onSelect: (item: any) => void;
   disabled?: boolean;
 }
 
@@ -241,9 +245,30 @@ export const AdaptiveWheel: React.FC<AdaptiveWheelProps> = ({
     animFrameIdRef.current = requestAnimationFrame(animate);
   };
 
-  // Skip / Hızlı Bitir
+  // Hızlı Seçim (Animasyonu beklemeden anında seçer)
+  const fastSpin = () => {
+    if (disabled || count === 0) return;
+    if (isSpinning && animFrameIdRef.current) {
+      cancelAnimationFrame(animFrameIdRef.current);
+    }
+    const winningIndex = Math.floor(Math.random() * count);
+    const targetSliceAngle =
+      2 * Math.PI - (winningIndex * sliceAngle + sliceAngle / 2) - Math.PI / 2;
+    rotationRef.current = targetSliceAngle;
+    drawWheel(targetSliceAngle);
+    playTickSound();
+    setIsSpinning(false);
+    const selectedItem = meals[winningIndex];
+    if (selectedItem) {
+      onSelect(selectedItem);
+    }
+  };
+
+  // Skip / Hızlı Bitir (Dönüyorsa hemen sonuca atlar, duruyorsa başlatır)
   const handleWheelClick = () => {
-    if (!isSpinning) {
+    if (isSpinning) {
+      fastSpin();
+    } else {
       spin();
     }
   };
@@ -276,17 +301,21 @@ export const AdaptiveWheel: React.FC<AdaptiveWheelProps> = ({
         </div>
       </div>
 
-      {/* Bilgilendirme Rozeti */}
-      <div className="mt-2 text-center">
-        {showLabels ? (
-          <p className="text-[11px] text-gray-400">
-            🎯 Kalan <strong className="text-orange-400">{count}</strong> yemek çarkta yazılı.
-          </p>
-        ) : (
-          <p className="text-[11px] text-gray-400">
-            ✨ Havuzda <strong className="text-orange-400">{count}</strong> yemek var. İbre durduğunda yemek açılacak!
-          </p>
-        )}
+      {/* Çark Altı Sayaç ve Hızlı Çevir Aksiyonu */}
+      <div className="mt-2.5 flex items-center justify-center gap-2">
+        <span className="text-[11px] text-gray-400 font-medium px-2.5 py-1 rounded-xl bg-[#141722] border border-[#232736]">
+          {count} seçenek
+        </span>
+        <button
+          type="button"
+          onClick={fastSpin}
+          disabled={disabled || count === 0}
+          className="px-3 py-1 rounded-xl bg-[#181b26] hover:bg-[#222736] active:scale-95 text-orange-400 border border-orange-500/20 text-xs font-semibold flex items-center gap-1.5 transition-all disabled:opacity-40"
+          title="Beklemeden anında seç"
+        >
+          <Zap className="w-3.5 h-3.5" />
+          <span>Hızlı Çevir</span>
+        </button>
       </div>
     </div>
   );

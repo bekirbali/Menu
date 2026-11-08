@@ -7,7 +7,8 @@ export type MealCategory =
   | "firin"
   | "bakliyat"
   | "makarna-hamur"
-  | "pratik";
+  | "pratik"
+  | "tatli";
 
 export interface Meal {
   id: string;
@@ -28,6 +29,32 @@ export interface CycleState {
   lastUpdated: string;
 }
 
+export interface FullCourseMenu {
+  soup: Meal | null;
+  mainCourse: Meal | null;
+  sideDish: Meal | null;
+  dessert: Meal | null;
+}
+
+export interface CuratedMenu {
+  id: string;
+  name: string;
+  soup: string;
+  mainDish: string;
+  sideDish: string;
+  dessert: string;
+  isCustom?: boolean;
+  createdAt?: string;
+}
+
+export type WheelFilterCategory =
+  | "all"
+  | "corba"
+  | "ana-yemek"
+  | "zeytinyagli"
+  | "tatli"
+  | "custom";
+
 export const CATEGORY_LABELS: Record<MealCategory, string> = {
   "corba": "Çorba",
   "ana-yemek": "Ana Yemek",
@@ -38,6 +65,7 @@ export const CATEGORY_LABELS: Record<MealCategory, string> = {
   "bakliyat": "Bakliyat",
   "makarna-hamur": "Makarna & Hamur",
   "pratik": "Pratik",
+  "tatli": "Tatlı",
 };
 
 export const CATEGORY_EMOJIS: Record<MealCategory, string> = {
@@ -50,5 +78,6 @@ export const CATEGORY_EMOJIS: Record<MealCategory, string> = {
   "bakliyat": "🫘",
   "makarna-hamur": "🍝",
   "pratik": "🍳",
+  "tatli": "🍮",
 };
 
